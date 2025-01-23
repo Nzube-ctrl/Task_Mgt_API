@@ -13,9 +13,11 @@ import * as Joi from 'joi';
 import { RateLimiterModule, RateLimiterGuard } from 'nestjs-rate-limiter';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
+import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({ throttlers: [{ limit: 4, ttl: seconds(10) }] }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -61,6 +63,6 @@ import { JwtModule } from '@nestjs/jwt';
     })
   ],
   controllers: [AppController],
-  providers: [AppService, Logger, { provide: APP_GUARD, useClass: RateLimiterGuard }],
+  providers: [AppService, Logger, { provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule { }
