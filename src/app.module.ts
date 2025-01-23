@@ -17,7 +17,7 @@ import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot({ throttlers: [{ limit: 4, ttl: seconds(10) }] }),
+    ThrottlerModule.forRoot({ throttlers: [{ limit: 4, ttl: seconds(10) }], errorMessage: `Too Many requests!` }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
