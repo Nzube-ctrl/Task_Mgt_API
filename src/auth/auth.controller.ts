@@ -12,12 +12,14 @@ export class AuthController {
 
     @Post('register')
     @ApiOperation({ summary: `Register a user` })
+    @ApiCreatedResponse({ description: 'User registered successfully!' })
     async register(@Body(ValidationPipe) registerDto: RegisterDto): Promise<{ message: string; user: Partial<User> }> {
         return this.authService.register(registerDto);
     }
 
     @Post('login')
     @ApiOperation({ summary: `Login a user` })
+    @ApiOkResponse({ description: 'User logged in successfully!' })
     async login(@Body(ValidationPipe) loginDto: LoginDto): Promise<{ message: string; user: Partial<User>; token: string }> {
         return this.authService.login(loginDto);
     }
