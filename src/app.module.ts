@@ -14,6 +14,7 @@ import { RateLimiterModule, RateLimiterGuard } from 'nestjs-rate-limiter';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -60,7 +61,8 @@ import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
           expiresIn: configService.get<string>('JWT_EXPIRES_IN'),
         },
       }),
-    })
+    }),
+    HealthModule
   ],
   controllers: [AppController],
   providers: [AppService, Logger, { provide: APP_GUARD, useClass: ThrottlerGuard }],
